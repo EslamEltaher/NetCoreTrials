@@ -9,6 +9,10 @@ namespace NetCoreTrial.Controllers
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
+        public SampleDataController()
+        {
+
+        }
         private static string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
