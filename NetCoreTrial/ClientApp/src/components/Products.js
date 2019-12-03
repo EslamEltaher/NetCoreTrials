@@ -3,8 +3,14 @@ import * as axios  from 'axios';
 import { throws } from 'assert';
 
 export class Products extends Component {
+    constructor(){
+        super();
+        console.log('CTOR');
+    }
+
+
     state = {
-        products : [],
+    //     products : [],
         productToAdd : {
             ImageUrl : "",
             categoryId: 1,
@@ -13,15 +19,16 @@ export class Products extends Component {
 
     componentDidMount() {
         axios.default.get('http://localhost:5000/api/Product').then(response => { 
+            this.props.setProducts(response.data);
             console.log(response)
-            this.setState({ products : response.data })
-            console.log(response)
+            // this.setState({ products : response.data })
         });
     }
 
     deleteProduct(productId) {
         axios.default.delete('http://localhost:5000/api/Product/' + productId).then(response => { 
-            this.setState({ products : this.state.products.filter(p => p.id != response.data) });
+            this.props.deleteProduct(response.data);
+            // this.setState({ products : this.state.products.filter(p => p.id != response.data) });
         });
     }
 
@@ -34,8 +41,6 @@ export class Products extends Component {
         console.log(event.target);
         this.setState({ productToAdd: { ...this.state.productToAdd, [event.target.id]: event.target.value } });
         console.log(this.state.productToAdd);
-    }
-    removeProductFromView(productId) { 
     }
 
     render() {
@@ -55,7 +60,7 @@ export class Products extends Component {
                 </thead>
                 <tbody>
                     {
-                        this.state.products.map(p => (
+                        this.props.products.map(p => (
                             <tr key={p.id}>
                                 <td>{p.id}</td>
                                 <td>{p.name}</td>
@@ -70,18 +75,18 @@ export class Products extends Component {
             </table>
 
             <form /*noValidate*/>
-                {/* <div><input type="text" name="name" changed={function() { console.log(...arguments)}}/></div> */}
+                {/* <div><input type="text" nam e="name" changed={function() { console.log(...arguments)}}/></div> */}
 
-                <div class="form-group">
-                    <label for="Name">Name</label>
+                <div className="form-group">
+                    <label htmlFor="Name">Name</label>
                     <input onChange={this.onInputChange} type="text" className="form-control" id="Name" placeholder="Product Name" />
                 </div>
                 <div className="form-group">
-                    <label for="Description">Description</label>
+                    <label htmlFor="Description">Description</label>
                     <input onChange={this.onInputChange} type="text" className="form-control" id="Description" placeholder="Product Description" />
                 </div>
                 <div className="form-group">
-                    <label for="Price">Price</label>
+                    <label htmlFor="Price">Price</label>
                     <input onChange={this.onInputChange} type="number" className="form-control" id="Price" placeholder="Price" />
                 </div>
                 <div className="form-group">
@@ -91,11 +96,11 @@ export class Products extends Component {
                 </div>
                 <img width="300px" height="300px" src="https://cf3.s3.souqcdn.com/item/2019/05/20/54/14/89/73/item_L_54148973_8207d64f7f9fd.jpg" />
 {/*                 
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
+                <div className="form-group">
+                    <label htmlFor="exampleInputEmail1">Email address</label>
+                    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
                 </div>
-                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> */}
+                    <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small> */}
             </form>
         </div>
         );
