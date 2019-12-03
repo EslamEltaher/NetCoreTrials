@@ -10,9 +10,9 @@ namespace NetCoreTrial1
 {
     public class Seed
     {
-        private readonly IDataContext _context;
+        private readonly DataContext _context;
 
-        public Seed(IDataContext context)
+        public Seed(DataContext context)
         {
             _context = context;
         }
@@ -20,13 +20,13 @@ namespace NetCoreTrial1
         public void SeedProducts()
         {
             if (!_context.Categories.Any())
-                _context.Categories.Add(new Category() { Id = 1, Name = "Tech", Description = "Electronics" });
+                _context.Categories.Add(new Category() { Id = 0, Name = "Tech", Description = "Electronics" });
 
-            if (! _context.Products.Any())
-            {
-                _context.Products.Add(new Product() { Id = getId(), Name = "Product1", CategoryId = 1, Description = "This is Product1", Price = 100, ImageUrl = "" });
-                _context.Products.Add(new Product() { Id = getId(), Name = "Product2", CategoryId = 1, Description = "This is Product2", Price = 200, ImageUrl = "" });
-                _context.Products.Add(new Product() { Id = getId(), Name = "Product3", CategoryId = 1, Description = "This is Product3", Price = 300, ImageUrl = "" });
+            //if (! _context.Products.Any())
+            //{
+                //_context.Products.Add(new Product() { Id = getId(), Name = "Product1", CategoryId = 1, Description = "This is Product1", Price = 100, ImageUrl = "" });
+                //_context.Products.Add(new Product() { Id = getId(), Name = "Product2", CategoryId = 1, Description = "This is Product2", Price = 200, ImageUrl = "" });
+                //_context.Products.Add(new Product() { Id = getId(), Name = "Product3", CategoryId = 1, Description = "This is Product3", Price = 300, ImageUrl = "" });
                 _context.Products.Add(new Product() { Id = getId(), Name = "Product4", CategoryId = 1, Description = "This is Product4", Price = 400, /*ImageUrl = ""*/ });
                 _context.Products.Add(new Product()
                 {
@@ -46,11 +46,23 @@ namespace NetCoreTrial1
                     Price = 400,
                     ImageUrl = "https://cf2.s3.souqcdn.com/item/2017/05/30/22/89/21/93/item_L_22892193_32100772.jpg"
                 });
-            }
+                _context.Products.Add(new Product()
+                {
+                    Id = getId(),
+                    CategoryId = 1,
+                    Name = "AmazonBasics High-Speed HDMI 2.0 Cable - 3 Feet(2 - Pack)",
+                    Description = "Be it your smartphone or home theatre; you can connect the AmazonBasics High Speed HDMI 2.0 Cable with the utmost ease. Get ready to enjoy superior sound quality with amazing clarity like never before. The 2.0 HDMI cable supports up to 32 audio channels and also promotes dual audio and video streaming. It is specially designed to expand bandwidths up to 18 Gbps to support a mammoth 4K ...",
+                    Price = 64,
+                    ImageUrl = "https://cf1.s3.souqcdn.com/item/2017/05/30/22/89/23/81/item_L_22892381_32101108.jpg"
+                });
+                
+            //}
+            _context.SaveChanges();
         }
         private int getId()
         {
-            return DataContext.MaxId;
+            //return DataContext.MaxId;
+            return 0;
         }
     }
 }

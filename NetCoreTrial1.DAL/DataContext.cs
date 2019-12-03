@@ -12,7 +12,7 @@ namespace NetCoreTrial1.Persistence
     {
         public DataContext(DbContextOptions options) : base(options)
         {
-            SeedData();
+            //SeedData();
         }
 
         public DbSet<Product> Products { get; set; }
@@ -53,7 +53,7 @@ namespace NetCoreTrial1.Persistence
             //    maxId = 6;
             //}
 
-            SaveChanges();
+            //SaveChanges();
         }
         private static int _maxId = 0;
 

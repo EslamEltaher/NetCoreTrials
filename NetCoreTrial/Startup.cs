@@ -25,7 +25,10 @@ namespace NetCoreTrial
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(options => options.UseInMemoryDatabase("MY DB"));
+            //services.AddDbContext<DataContext>(options => options.UseInMemoryDatabase("MY DB"));
+            services.AddDbContext<DataContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString("Default"), b => b.MigrationsAssembly("NetCoreTrial1"))
+            );
             services.AddScoped<IDataContext, DataContext>();
             //services.AddScoped<DataContext>();
             services.AddScoped<IProductRepository, ProductRepository>();
