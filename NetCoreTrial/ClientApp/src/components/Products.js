@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import * as axios  from 'axios';
 import { throws } from 'assert';
+import { connect } from 'react-redux';
+import { SET_PRODUCTS, ADD_PRODUCT, DELETE_PRODUCT } from '../store/actionTypes';
 
-export class Products extends Component {
+class Products extends Component {
     constructor(){
         super();
         console.log('CTOR');
@@ -19,11 +21,20 @@ export class Products extends Component {
 
     componentDidMount() {
         axios.default.get('http://localhost:5000/api/Product').then(response => { 
+            console.log('before');
             this.props.setProducts(response.data);
-            console.log(response)
+            console.log('after');
+            // console.log(response)
             // this.setState({ products : response.data })
         });
     }
+
+    static getDerivedStateFromProps(nextProps, prevState){
+        if(nextProps.products!==prevState.products){
+          return { products: nextProps.products};
+        }
+        else return null;
+      }
 
     deleteProduct(productId) {
         axios.default.delete('http://localhost:5000/api/Product/' + productId).then(response => { 
@@ -34,7 +45,8 @@ export class Products extends Component {
 
     addProduct = () => { 
         axios.default.post('http://localhost:5000/api/Product', this.state.productToAdd).then(response => {
-            this.setState({ products: [...this.state.products, response.data] });
+            this.props.addProduct(response.data);
+            // this.setState({ products: [...this.state.products, response.data] });
         });
     }
     onInputChange = (event) => {
@@ -66,7 +78,7 @@ export class Products extends Component {
                                 <td>{p.name}</td>
                                 <td>{p.description}</td>
                                 <td>{p.price}</td>
-                                <td><img width="300px" height="300px" src={p.imageUrl}/></td>
+                                <td><img alt={p.description} width="300px" height="300px" src={p.imageUrl}/></td>
                                 <td><button onClick={() => this.deleteProduct(p.id)} className="btn btn-danger">Delete</button></td>
                             </tr>
                         ))
@@ -106,3 +118,18 @@ export class Products extends Component {
         );
     }
 };
+
+const mapStateToProps = (state) => {
+    return { products : state.products };
+}
+const mapDispatchToProps = (dispatch) => {
+    return { 
+        setProducts: products => dispatch({ type : SET_PRODUCTS, products }),
+        addProduct: product => dispatch({ type: ADD_PRODUCT , product}),
+        deleteProduct: productId => dispatch({type: DELETE_PRODUCT, productId})
+    }
+}
+  
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Products);

@@ -4,9 +4,9 @@ import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
-import { Products } from './components/Products';
-import { connect } from 'react-redux';
-import { SET_PRODUCTS, ADD_PRODUCT, DELETE_PRODUCT } from './store/actionTypes';
+import Products from './components/Products';
+// import { connect } from 'react-redux';
+// import { SET_PRODUCTS, ADD_PRODUCT, DELETE_PRODUCT } from './store/actionTypes';
 
 class App extends Component {
   displayName = App.name
@@ -28,7 +28,7 @@ class App extends Component {
         <Route path='/counter' component={Counter} />
         <Route path='/fetchdata' component={FetchData} />
         <Route path='/Products' component={() => (
-          <Products setProducts={this.props.setProducts} 
+          <Products store={this.props.store} setProducts={this.props.setProducts} 
             products={this.props.products}
             addProduct={this.props.addProduct}
             deleteProduct={this.props.deleteProduct} />)}
@@ -39,17 +39,5 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return { products : state.products };
-}
-const mapDispatchToProps = (dispatch) => {
-  return { 
-    setProducts: products => dispatch({ type : SET_PRODUCTS, products }),
-    addProduct: product => dispatch({ type: ADD_PRODUCT , product}),
-    deleteProduct: productId => dispatch({type: DELETE_PRODUCT, productId})
-  }
-}
-
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+// export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
