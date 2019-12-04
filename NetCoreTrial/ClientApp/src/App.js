@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router';
+import { Route, Router } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
@@ -20,8 +20,9 @@ class App extends Component {
   // }
 
   render() {
-    console.warn('APP RENDER')
+    console.log('APP RENDER')
     return (
+      // <Router>
       <Layout>
         <Route exact path='/' component={Home} />
         <Route path='/counter' component={Counter} />
@@ -33,6 +34,7 @@ class App extends Component {
             deleteProduct={this.props.deleteProduct} />)}
         />
       </Layout>
+      // </Router>
     );
   }
 }
