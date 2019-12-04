@@ -19,7 +19,7 @@ export default  (state = initalState, action) => {
         break;
 
         case DELETE_PRODUCT:
-            state = { ...state, products: this.state.products.filter(p => p.id != action.productId ) }
+            state = { ...state, products: state.products.filter(p => p.id != action.productId ) }
         break;
         default:
             break;
